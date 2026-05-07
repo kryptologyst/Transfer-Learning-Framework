@@ -1,0 +1,69 @@
+# Default configuration for Transfer Learning Framework
+
+# Dataset configuration
+dataset:
+  name: "cifar10"
+  data_dir: "./data"
+  batch_size: 32
+  num_workers: 4
+  val_split: 0.2
+  input_size: 224
+  augmentation_strength: "medium"  # light, medium, strong
+  use_albumentations: false
+
+# Model configuration
+model:
+  name: "transfer_resnet50"  # simple_cnn, transfer_resnet18, transfer_resnet50, etc.
+  num_classes: 10
+  pretrained: true
+  freeze_backbone: false
+  dropout_rate: 0.5
+  use_custom_head: false
+
+# Training configuration
+training:
+  num_epochs: 20
+  optimizer: "adam"  # adam, adamw, sgd, rmsprop
+  lr: 0.001
+  weight_decay: 1e-4
+  scheduler: "step"  # step, multistep, exponential, cosine, plateau
+  scheduler_params:
+    step_size: 7
+    gamma: 0.1
+  early_stopping:
+    patience: 7
+    min_delta: 0.001
+    mode: "min"
+  use_mixed_precision: false
+
+# Progressive unfreezing (optional)
+progressive_unfreezing:
+  enabled: false
+  unfreeze_schedule: [5, 10, 15]
+  lr_multiplier: 0.1
+
+# Evaluation configuration
+evaluation:
+  save_predictions: true
+  save_probabilities: true
+  create_plots: true
+  plot_confusion_matrix: true
+  plot_classification_report: true
+  plot_training_history: true
+  plot_roc_curve: true
+  plot_calibration_curve: true
+
+# Experiment configuration
+experiment:
+  name: "transfer_learning_experiment"
+  base_dir: "./experiments"
+  save_checkpoints: true
+  log_level: "INFO"
+  seed: 42
+
+# Device configuration
+device:
+  auto_detect: true
+  force_cpu: false
+  force_cuda: false
+  force_mps: false
